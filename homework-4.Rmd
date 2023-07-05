@@ -1,0 +1,127 @@
+---
+title: "5160 - Homework 4"
+author: "Mostafa"
+date: "2/27/2021"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+---
+
+```{r}
+# To clean the environment
+rm(list = ls())
+
+#########################################################################################
+#################### Chapter 4 : Models for Stationary Time Series ######################
+#########################################################################################
+library (TSA) # Load the TSA package
+```
+
+
+## 1
+### 1.(a)
+k=0 : 1          
+k=1 : -0.2127      
+k=2 : -0.2836    
+k>2 : 0      
+
+### 1.(b)
+```{r}
+ACF = ARMAacf(ma=c(-0.5,-0.4), lag.max=3)
+ACF
+```
+
+### 1.(c)
+```{r}
+ACF=ARMAacf(ma=c(-0.5,-0.4),lag.max=3)
+plot(y=ACF[-1],x=1:3,xlab='Lag',ylab='ACF',main="Population ACF", type='h')
+abline(h=0)
+```
+
+---
+
+## 2
+**Hint for Problem 2 - Homework #4**:     
+Please note that this problem only asks about population ACF, not sample ACF, because the problem does not even ask you to simulate time series. The ACF you obtained in a) and b) should be exactly the same.       
+Neither 1 nor 2 says a sample size so both of them are about the **population** and the **ARMAacf()** function should be used. The **acf()** function is for the calculation of the **sample** autocorrelations. Hope it helps.      
+
+|     | Function |
+| --- | --- |
+| population | ARMAacf() | 
+| samlpe     | acf()     |   
+
+### 2.(a)
+```{r}
+phi = 0.6
+phi^(0:8)
+```
+
+### 2.(b)
+```{r}
+ACF=ARMAacf(ar=c(0.6),lag.max=8)
+ACF
+```
+
+### 2.(c)
+```{r}
+ACF=ARMAacf(ar=c(0.6),lag.max=8)
+plot(y=ACF[-1],x=1:8,xlab='Lag',ylab='ACF',main="Population ACF",type='h')
+abline(h=0)
+```
+
+---
+
+## 3
+```{r}
+RNGkind (sample.kind = "Rounding")   # To make the result of set.seed() identical in different OSs
+set.seed(2)
+ar.sim.1 <- arima.sim(list(order = c(1,0,0), ar = -0.6), n = 200)
+
+RNGkind (sample.kind = "Rounding")   # To make the result of set.seed() identical in different OSs
+set.seed(2)
+ma.sim.2 <- arima.sim(list(order = c(0,0,2), ma = c(-0.8,+0.5)), n = 200)
+# Important! R's convention is to use positive thetas for MA models (so we have to negate)
+# E.g., ma = 0.9 means theta = -0.9.
+```
+
+### 3.(a)
+```{r}
+par(mfrow=c(2,1))
+plot(ar.sim.1,ylab=expression(Y[t]),xlab="Time",type="o",main="AR(1) simulation, phi=-0.6")
+plot(ma.sim.2,ylab=expression(Y[t]),xlab="Time",type="o",main="MA(2) simulation, theta1=+0.8, theta2=-0.5")
+```
+
+
+### 3.(b)
+```{r}
+par(mfrow=c(2,1))
+#plot(ar.sim.1,ylab=expression(Y[t]),xlab="Time",type="o",main="AR(1) simulation, phi=-0.6")
+acf(ar.sim.1,main="Sample ACF AR(1), phi=-0.6")
+#plot(ma.sim.2,ylab=expression(Y[t]),xlab="Time",type="o",main="MA(2) simulation, theta1=+0.8, theta2=-0.5")
+acf(ma.sim.2,main="Sample ACF MA(2), theta1=+0.8, theta2=-0.5")
+
+```
+
+### 3.(c)  
+**MA(2): There are two spikes on K=1,2 that are in agreement with the theory. To compare the population and sample I plot both in the same frame.**
+```{r}
+# MA(2)
+par(mfrow=c(2,1))
+acf(ma.sim.2,main="Sample ACF MA(2), theta1=+0.8, theta2=-0.5")
+ACF=ARMAacf(ma=c(-0.8,+0.5),lag.max=20)
+plot(y=ACF[-1],x=1:20,xlab='Lag',ylab='ACF',main="Population ACF MA(2), theta1=+0.8, theta2=-0.5", type='h')
+abline(h=0)
+```
+
+**AR(2): Spikes decay quickly with an alternating pattern. To compare the population and sample, I plot both in the same frame.**
+```{r}
+# AR(1)
+par(mfrow=c(2,1))
+acf(ar.sim.1,main="Sample ACF AR(1), phi=-0.6")
+ACF=ARMAacf(ar=c(-0.6),lag.max=20)
+plot(y=ACF[-1],x=1:20,xlab='Lag',ylab='ACF',main="Population ACF AR(1), phi=-0.6",type='h')
+abline(h=0)
+```
+
