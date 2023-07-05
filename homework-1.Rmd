@@ -1,0 +1,105 @@
+---
+title: "Homework 1"
+author: "Mostafa"
+date: "1/18/2021"
+output: html_notebook
+---
+
+---     
+
+1. Two factors determine the brightness of a star: its luminosity (how much energy it puts out in a given time) and its distance from the Earth. The data in are nightly brightness measurements (in magnitude)
+of a single star over a period of 600 nights.     
+Data file: star (TSA). There are n = 600 observations. Measurements are taken each night.      
+
+(a) Construct a time series plot for the star data.  
+```{r}
+library(TSA)
+data(star)
+df = star
+
+# Time Series Plot
+plot(df, ylab="Magnitude",
+         xlab="The number of night",
+         type="o",
+         main="Time Series Plot of nightly brightness of a single star")
+```
+
+(b) Construct a lag-1 scatter plot,     
+```{r}
+require(TSA)
+data(star)
+
+#Lag-1 scatterplot
+plot(y = star,
+     x = zlag(star,1),
+     ylab = "Magnitude",
+     xlab = "Previous Magnitude",
+     #type = "o",
+     main = "Scatterplot of nightly brightness of a single star" )
+```
+and calculate lag-1 correlation.
+```{r}
+# Lag-12 correlation
+cor(star, zlag(star,1), use="complete.obs")
+```
+
+(c) What noticeable patterns you observed?   
+**Answer**: There is a high correlation between two consecutive values. A clear trend is seen in the plot of "star" dataset.      
+
+(d) Can you predict the brightness of stars next night based on the brightness of stars in the previous night.     
+**Answer**: I think so. Because there is a clear pattern in the data. Also, based on physics perspective, brightness of the stars has an accurate behaviour.
+
+---    
+
+2. The Bureau of Transportation Statistics publishes monthly passenger traffic data reflecting 100 percent of scheduled operations for airlines in the United States. The data are monthly U.S. airline passenger miles traveled from 1/1996 to 5/2005.        
+Data file: airmiles(TSA). There are n = 113 observations. Measurements are taken each month.      
+
+(a) Construct a time series plot with monthly plotting symbols for the airmiles data.     
+```{r}
+require(TSA)
+data("airmiles")
+df = airmiles
+
+#Time Series Plot
+plot(df,
+     ylab = "Passenger miles traveled",
+     xlab = "The number of month",
+     type = "o",
+     # Note 1: To add the initials of the months, it would be better to use  type = "l"
+     main = "Monthly passenger miles traveled" )
+#points(y=df,x=time(df),pch=as.vector(season(df)))
+# Note 2: The above line adds the initials of the months on the points.
+```
+
+(b) Construct a lag-12 scatter plot and calculate lag-12 correlation.        
+```{r}
+require(TSA)
+data("airmiles")
+df = airmiles
+
+# Lag-12 scatterplot
+plot(y = df,
+     x = zlag(df,12),
+     ylab = "Passenger miles traveled",
+     xlab = "Previous passenger miles traveled",
+     #type = "o",
+     main = "Monthly passenger miles traveled" )
+```
+
+
+```{r}
+# Lag-12 correlation
+cor(airmiles, zlag(airmiles,12), use="complete.obs")
+```
+
+
+
+(c) What noticeable patterns you observed?    
+**Answer**: The only pattern I can see in about an increasing general trend.     
+
+
+(d) Can you predict the air miles in December 2004 based on the air miles in December 2003? Why or why not?     
+**Answer**: No. Because again, I would say, the only pattern I can see in about an increasing general trend.
+
+
+
