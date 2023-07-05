@@ -1,0 +1,77 @@
+---
+title: "Homework 2"
+author: "Mostafa"
+date: "2/1/2021"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+---   
+
+1. Answer the following questions using simulated date. Please make sure you set the seed of R’s random number generator, which makes your simulations reproducible.  
+
+(a) Simulate and plot a white noise process $e_{t}\sim \ iid \ \ \chi^2(1)$ of length $n = 150$.   
+```{r}
+library (TSA) # Load the TSA package
+
+# Example 1: white noise 
+# noises are Chi-squared(1) distributed
+set.seed(1)
+wn.chisq1 = rchisq(150,1)
+
+plot(wn.chisq1,
+     ylab="Simulated white noise process",
+     xlab="Time",
+     main="Chi-squared(1)",
+     type="o")
+
+```
+
+(b) For your simulated series, create and plot the corresponding random walk process $Y_{t} = Y_{t-1} + e_{t}$.
+Please note that the mean of this random walk process is not zero.
+```{r}
+# Example 2: random walk 
+# Part 1: random walk based on Chi-squared(1) distribution 
+# Time Series Plot
+
+set.seed(1)
+wn.chisq1 = rchisq(150,1)
+
+random.walk.chisq1 = c() #wn.chisq1*0 #To make a zero vector with the length of wn.chisq1
+for(i in 1:length(wn.chisq1)) 
+   {random.walk.chisq1[i] = sum(wn.chisq1[1:i]) }
+
+plot(random.walk.chisq1,
+     ylab="Random Walk",
+     xlab="Time",
+     main="Random Walk based on Chi-squared(1) white noise",
+     type="o")
+```
+
+```{r}
+set.seed(1)
+wn.n01<-rnorm(150,0,1)
+random.walk.n01<-wn.n01*0
+for(i in 1:length(wn.n01))
+{random.walk.n01[i]<-sum(wn.n01[1:i])
+}
+plot(random.walk.n01,ylab="Random Walk based on N(0,1) white noise",xlab="Time",type="o")
+```
+
+(c) Comment on the differences between this simulated random walk processes and the simulated random walk based on standard normal distribution.    
+**Answer**: I think the main deference of these two is about that the mean of the Chi-squared(1) random walk process is not zero. This makes it cumulative. of course, it has fluctuations too but this size of ups and does are negligible in comparison with the whole scenario.   
+Also the Chi-squared(1) oscillates in a wider range.
+
+
+
+
+
+
+
+
+
+
+
+
+

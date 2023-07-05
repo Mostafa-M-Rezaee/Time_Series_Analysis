@@ -2,7 +2,9 @@
 title: "Homework 1"
 author: "Mostafa"
 date: "1/18/2021"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 ---     
