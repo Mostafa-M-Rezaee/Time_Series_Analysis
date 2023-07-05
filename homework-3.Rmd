@@ -1,0 +1,178 @@
+---
+title: "Homework-3_Mostafa_5061"
+author: "Mostafa"
+date: "2/17/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+  html_notebook: default
+---
+
+---  
+
+## 1.      
+The data file winnebago in the TSA package contains monthly unit sales of recreational vehicles from Winnebago, Inc. from November 1966 through February 1972.     
+```{r}
+rm(list = ls())
+
+library (TSA) # Load the TSA package
+data(winnebago)
+ts_data = winnebago
+str(ts_data)
+```
+
+
+### 1(a) 
+Display and interpret the time series plot for this data.      
+**Answer**: There is an increasing monthly trend in the TS data. Also we can interpret that as times goes, this increasing trend is increasing too. I mean maybe a non-linear model may interpret this data better than a linear one. Of course, my interpretation is just based on this plot, after more investigation (for example in part c),  the interpretation may change slightly.   
+```{r}
+plot(ts_data, ylab="Sales",xlab="Month",type="o"
+            ,main="Monthly unit sales of recreational vehicles from Winnebago, Inc.")
+
+```
+
+### 1(b)     
+Use least squares to fit a linear time trend to this time series and write down your fitted model.   
+**Answer**:  $Sales = -394885.68 + 200.74 * time(ts\_data)$
+```{r}
+# fitting using simple linear regression
+fit <- lm(ts_data~time(ts_data))
+summary(fit)
+plot(ts_data, ylab="Sales",xlab="Month",type="o"
+            ,main="Monthly unit sales of recreational vehicles from Winnebago, Inc.")
+abline(fit)
+```
+
+### 1(c)      
+Construct and interpret the time series plot for the residuals obtained from part (b).    
+**Answer**: The residual plot helped me to figure out that Although there is an uptrend, there is also a fluctuation around the fitted line. And as times goes, in general, the residuals become bigger and bigger. Of course again, this interpretation is based on the these plots and it may slightly change in part d.   
+```{r}
+# Residuals from straight line model fit
+fit <- lm(ts_data~time(ts_data))
+plot(resid(fit),ylab="Residuals",xlab="Month",type="o")
+```
+
+
+### 1(d)     
+Now take natural logarithms of the monthly sales figures and display and interpret the time series plot of the transformed values.     
+**Answer**: Now, I have a better idea about the data. They have a logarithmic nature. Because the logarithmic transformed data has a uptrend and explains why as time goes, the residuals become biger and biger.   
+```{r}
+log_ts_data = log(ts_data)
+#str(log_ts_data)
+plot(log_ts_data, ylab="Sales",xlab="Month",type="o"
+            ,main="Monthly unit sales of recreational vehicles from Winnebago, Inc.")
+```
+
+### 1(e)       
+Use least squares to fit a line to the logged data and write down your fitted model.     
+**Answer**:  $log(Sales) = -984.93878 + 0.50306 * time(ts\_data)$
+```{r}
+# fitting using simple linear regression
+fit <- lm(log_ts_data~time(ts_data))
+summary(fit)
+plot(log_ts_data, ylab="Sales",xlab="Month",type="o"
+            ,main="Monthly unit sales of recreational vehicles from Winnebago, Inc.")
+abline(fit)
+```
+
+
+### 1(f)      
+Construct and interpret the time series plot for residuals from part (e).  
+**Answer**: The points evenly distributed around zero. So, we can interpret that the sales data has a logarithmic nature and a logarithmic transform can explain the behavior of this data.
+```{r}
+# Residuals from straight line model fit
+fit <- lm(log_ts_data~time(ts_data))
+plot(resid(fit),ylab="Residuals",xlab="Month",type="o")
+```
+
+
+
+
+
+## 2. 
+**Note**: In problem 2, although the data do show some seasonality as well as linear decreasing pattern in general, you don't need to consider seasonality for this problem. I have added the specific form (linear trend) for the model in problem 2 a).
+
+Tuberculosis, commonly known as TB, is a bacterial infection that can spread through the lymph nodes and bloodstream to any organ in your body (it is most often found in the lungs). Most people who are exposed to TB never develop symptoms, because the bacteria can live in an inactive form in the body. But if the immune system weakens, such as in people with HIV or in elderly adults, TB bacteria can become active and fatal if untreated. The numbers of TB cases (per month) in the United States from January 2000 to December 2009 are catalogued in the data file “tb”.
+
+**Hint**: 
+You may use the following codes to load the data.
+
+`library(TSA)`    
+`##`      
+`## Attaching package: ’TSA’`    
+`## The following objects are masked from ’package:stats’:`     
+`##`     
+`## acf, arima`      
+`## The following object is masked from ’package:utils’:`      
+`##`      
+`## tar`      
+`tb = ts(read.table(file = "tb.txt"), freq=12, start=c(2000,1))`  
+```{r}
+tb = ts(read.table(file = "tb.txt"), freq=12, start=c(2000,1))
+ts_data = tb
+ts_data
+```
+
+
+### 2(a)    
+Use the methods in Chapter 3 to fit a linear trend model of the form $Y = b_{0}+b_{1}t+X_{t}$ where $E(X_{t}) = 0$.
+```{r}
+# fitting using simple linear regression
+fit <- lm(ts_data~time(ts_data))
+summary(fit)
+```
+
+
+### 2(b)      
+Produce a plot that displays the time series data with your fitted line. 
+```{r}
+plot(ts_data, ylab="TB cases",xlab="Month",type="o"
+            ,main="TB cases (per month) in the United States")
+abline(fit)
+```
+
+
+### (c)      
+Examine the standardized residuals $\hat X_{t}^*$ from your fitted model for normality and independence. What are your conclusions? Do the standardized residuals look to resemble a normal, zero mean white noise process?     
+**Answer**:    
+Histogram:    
+The histogram seems left-skewed. So, based on that I can say it is a left-skewed.   
+
+QQ plot:     
+As most of the data have been centered and they are on the reference line. However, the tails somehow do not follow reference line. And the tails' points are below the reference line. So, it is a left-skewed.    
+
+Residuals plot:       
+Although most of the points are above the reference line, those who are below the reference line have bigger residuals. And I would say they almost evenly distributed around the reference line. However, based on this plot I can not make sure about the normality.    
+
+Test:     
+"The p-value for the test is extremely small, so we would reject H0. The evidence points to the standardized residuals being not independent. The R output also produces the expected number of runs (computed under the assumption of independence). The observed number of runs is too much lower than the expected number to support independence." Lecture note, page 24.
+
+```{r}
+# Standardized residuals from straight line model fit using a Histogram and a Q-Q plot
+par(mfrow=c(1,2))
+hist(rstudent(fit),  main="Histogram of standardized residuals",xlab="Standardized residuals")
+qqnorm(rstudent(fit),main="QQ plot of standardized residuals")
+qqline(rstudent(fit),main="QQ plot of standardized residuals")
+```
+
+```{r}
+### Part 2: Assessing Independence
+# Standardized residuals from straight line model fit Horizontal line added at 0
+plot(rstudent(fit),ylab="Residuals",xlab="Year",type="o")
+abline(h=0)
+# Runs test for independence on standardized residuals
+runs(rstudent(fit))
+```
+
+
+### (d)     
+Display the sample ACF for the standardized residual in part (c). What’s your conclusion?     
+**Answer**: As there are some values that have exceeded the blue dash lines, I can interpret that there is a clear trend in the data. Also, at least one of the lags is much bigger (>0.6) than the blue dash line and I could consider "one" as too many. And it is not a white noise.   
+```{r}
+### Part 3: Sample autocorrelation function
+# Calculate sample ACF for standardized residuals
+acf(rstudent(fit),main="Sample ACF for standardized residuals")
+```
+
