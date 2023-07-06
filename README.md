@@ -2,7 +2,7 @@
 Models: AR - MA - ARMA - ARIMA - SARIMA - LSTM        
 Textbook: Time Series Analysis With Applications in R, Second Edition, Springer      
 test
-
+```
 Folder PATH listing
 
 Time Series Analysis:.
@@ -31,4 +31,4 @@ Time Series Analysis:.
             homework-2.pdf   
             homework-3.pdf   
             homework-4.pdf   
-
+```
