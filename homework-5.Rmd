@@ -1,0 +1,126 @@
+---
+title: "5160_HW-5"
+author: "Mostafa"
+date: 3/16/2021
+output: html_notebook
+---
+
+---
+
+## 1     
+
+### 1.a.
+```{r}
+library(TSA)
+data(milk)
+plot(milk, type = "o")
+```
+**Answer**:      
+- Increasing trend: Yes          
+- mean: increasing              
+- variance: almost constant                
+- Seasonality trend: Somehow               
+- Stationary: No           
+
+### 1.b. 
+```{r}
+diff_milk <- diff(milk)
+plot(diff_milk, ylab="diff_milk", type = "o")
+```
+**Answer**:      
+- Increasing trend: Not anymore             
+- mean: almost zero               
+- variance: almost constant             
+- Seasonality trend: Somehow             
+- Stationary: It seems still not                          
+
+The increasing trend has been removed compared to the original data but still could be following a seasonal trend.
+when compared to the inital gragh the second looks more close to stationary.   
+
+
+### 1.c.
+
+```{r}
+fit1 <- lm(diff_milk~time(diff_milk))
+fit1
+```
+**Answer**:    
+The slope `-0.009603` is very low. So, we can conclude that it is almost zero mean.
+
+```{r}
+plot(fit1$residuals, ylab = "Residuals", type = "o")
+abline(h = 0)
+```
+**Answer**:    
+The points are evenly distributed around the abline=0. So, we can conclude that the variance is constant. However, there are some spikes that might be because of seasonality trend.So, it is hard to say that the residuals are independent. Finally, I think the residuals are not independent.
+
+```{r}
+qqnorm(rstudent(fit1))
+qqline(rstudent(fit1))
+```
+**Answer**:    
+Not only is not it normal, but also we can see some level of seasonality in it.
+
+
+```{r}
+shapiro.test(rstudent(fit1))
+```
+**Answer**:    
+From pvalue we conclude that the standardized residuals are not normally distributed. 
+
+
+```{r}
+runs(rstudent(fit1))
+```
+**Answer**:    
+first differences data: not normal & not independent
+
+```{r}
+qqnorm(diff(milk))
+qqline(diff(milk))
+       
+plot(diff(milk),main="Differencing",type="o")
+abline(h=0)
+# Runs test to check the independency 
+runs(diff(milk))
+acf(diff(milk),main="Differencing")
+```
+**Answer**:    
+There are some spikes fall out of the margin errors cut off. So, these likely does not resemble a white noise process.
+
+---
+
+## 2    
+```{r}
+set.seed(1)
+AR1 <- arima.sim(list(order = c(1,0,0), ar = 0.4), n = 200)
+Wt = exp(AR1)
+```
+
+### 2.a.
+```{r}
+# Plot of AR(1) process
+plot(Wt, ylab = "Wt = e^Yt", main = 'AR(1)', type = 'o')
+```
+
+
+```{r}
+acf(Wt)
+```
+
+```{r}
+BoxCox.ar(Wt)
+```
+**Answer**:   
+As Lambda=0 ==> Log transformation
+
+```{r}
+w1 <- log(Wt)
+plot(w1, main="Transformed data (Lambda=0)", type = "o")
+```
+
+```{r}
+acf(w1, main = 'After Log transformation')
+```
+**Answer**:   
+It seems to be more stationary after the log transformation.
