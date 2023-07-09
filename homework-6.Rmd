@@ -1,0 +1,88 @@
+---
+title: "R Notebook"
+author: "Mostafa"
+date: 3/28/2021
+output: html_notebook
+---
+
+---
+
+```{r}
+library (TSA) 
+library(tseries)
+```
+
+# 1.
+```{r}
+# 1.
+set.seed(5)
+AR1 <- arima.sim(list(order = c(1,0,0), ar = -0.6), n = 1000)  # phi = -0.6
+MA1 <- arima.sim(list(order = c(0,0,1), ma = -0.8), n = 1000)  # theta = 0.8
+
+par(mfrow=c(2,2))
+
+acf (AR1, main="Sample ACF,  AR(1), phi = -0.6")
+pacf(AR1, main="Sample PACF, AR(1), phi = -0.6")
+
+acf (MA1, main="Sample ACF,  MA(1), theta = 0.8")
+pacf(MA1, main="Sample PACF, MA(1), theta = 0.8")
+
+eacf(AR1) #, main="Sample PACF, AR(1), phi = -0.6"
+eacf(MA1) #, main="Sample PACF, MA(1), theta = 0.8"
+```
+**Answer**: 
+Yes. The results based on ACF, PACF and EACF consistent with the true model for the time series. The reasons for each of them are as below step by step.        
+- Sample ACF  MA(1): A spike at lag 1 ==> A moving average of order 1 (q=1)                         
+- Sample PACF AR(1): A spike at lag 1 ==> An Autoregressive process of order 1 (P=1)              
+- Sample EACF AR(1): A wedge of zeros with tip at (1,0) ==> ARMA(1,0)                 
+- Sample EACF MA(1): A wedge of zeros with tip at (0,1) ==> ARMA(0,1)        
+
+---      
+
+# 2.
+
+## 2(a)
+```{r}
+# 2(a)
+gasprices <- ts(read.table("gasprices.txt", quote="\"", comment.char=""))
+par(mfrow=c(1,2))
+plot(gasprices, ylab="Average prices (US dollars per gallon)",xlab="Time",type="o"
+     , main="Average gas price, USA")
+acf(gasprices,main="Sample ACF")
+
+# ADF test
+adf.test(gasprices)
+```
+**Answer**:    
+- Time series plot ==> Mean is not zero and a linear upward trend ==> Non-stationary         
+- Sample ACF ==> Ddecays slowly ==> Non-stationary         
+- adf.test(gasprices): p-value(0.5492) ==> does not reject the null hypothesis. ==> There is insufficient evidence to conclude that the process is stationary.           
+
+## 2(b)
+```{r}
+# 2(b)
+par(mfrow=c(1,2))
+plot(diff(gasprices),ylab="First differencing (gasprices)",xlab="Time",type="o"
+     , main="diff() Average gas price, USA")
+acf(diff(gasprices),main="Sample ACF: 1st differences(gasprices)")
+
+# ADF test
+adf.test(diff(gasprices))
+```
+
+**Answer**:    
+- Time series plot of first differencing ==> It is better then the time series plot but it is not still mean zero, the points hang together and there are some big fluctuations. In my view it would not stationary.                     
+- Sample ACF: It has a big spike at lag 1 and a small one at lag 15. As the spike at lag 15 is not an early lag, maybe it is a false positive because od an outlier. So, It is similar to an MA(1) process.                      
+- adf.test(): p-value(0.01) is small ==> rejects the null hypothesis ==> There is sufficient evidence to formally conclude that the process is stationary.         
+
+## 2(c)
+```{r}
+# 2(c)
+par(mfrow=c(1,2))
+pacf(diff(gasprices),main=" Sample PACF: 1st differences(gasprices)")
+eacf(diff(gasprices))
+```
+**Answer**:    
+- Sample PACF: A spike at lag 1 ==> AR(1) process              
+- eacf(): a wedge of zeros with tip at (1,1) ==> The sample EACF largely agrees with the theory ARMA(1,1), which says that there should be a wedge of zeros with tip at (1,1). Now, we can make sure that the 2(b) was a MA(1) too.            
+
