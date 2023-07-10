@@ -1,0 +1,41 @@
+---
+title: "5160 _ Bonus"
+author: Mostafa
+date: 4/6/2021
+output: 
+    html_notebook:
+      toc: yes
+---
+
+---
+
+```{r}
+rm(list = ls())
+library (TSA) 
+library(tseries) 
+
+ts_data <- ts(read.table("Daw 30.txt"))
+
+# plots
+#par(mfrow=c(2,2))
+plot(ts_data,ylab="Closing price",xlab="Day",type="o")
+BoxCox.ar(ts_data)
+plot(log(ts_data),ylab="Closing prices (log scale)",xlab="Day",type="o")
+plot(diff(log(ts_data)),ylab="Difference log",xlab="Day",type="o")
+
+adf.test(diff(log(ts_data)))
+
+#sample ACF/PACF/EACF
+acf(diff(log(ts_data)))
+pacf(diff(log(ts_data)))
+eacf(diff(log(ts_data)))
+
+# Fit the ARIMA(0,0,1) model
+arima(log(ts_data),order=c(0,0,1),method="ML") # ML
+
+
+### final model
+# Diff.log(Yt) seems a white noise.
+# sigma^2 estimated as 0.3564
+```
+
