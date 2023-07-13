@@ -1,0 +1,199 @@
+---
+title: "5160 - hw7"
+author: "Mostafa"
+date: 4/13/2021
+output: 
+    html_notebook:
+        toc: yes
+---
+
+--- 
+
+# 1.a. Transforming / Differencing       
+```{r}
+library(TSA) # Load the TSA package
+library(tseries) # Load the tseries package
+```
+
+## TS Plot                
+```{r}
+# Load and plot the data
+gasprices<- ts(read.table(file = "gasprices.txt"))
+plot(gasprices, ylab = "Price (USD)", xlab = "Week", type = "o", main = "Average price for regular gasoline" )
+```
+
+## Transformation if nonconstant variance             
+- No non-constant variance in TS plot ==> No need to transformation.
+- CI lambda: .6-1.8 ==> No common transformation in this interval  
+
+```{r}
+# Profile log-likelihood of lambda (for Box Cox transformation)
+# This can be computationally intense (time consuming)
+BoxCox.ar(gasprices,method="burg")
+```
+
+## adf.test(): H0: non-stationsry     
+The large p-value here (`0.5492`) does not reject the null hypothesis. There is insufficient evidence to conclude that the `gasprices` process is stationary.
+```{r}
+adf.test(gasprices)
+```
+
+## acf(): decay very slowly?    
+**It seems that differencing is needed.**        
+```{r}
+acf(gasprices,main="Sample ACF")
+```
+
+## first differencing (d=1) and acf ==> MA(q=1)
+```{r}
+par(mfrow=c(1,2))
+plot(diff(gasprices),ylab="First Difference of Gasoline Prices", xlab="Time",type="o")
+acf(diff(gasprices),main="Sample ACF")
+```
+
+## adf.test() ==> stationary?      
+H0: non-stationarity versus H1: stationarity    
+`p-value = 0.01` ==> The null hypothesis is rejected. ==> Stationary 
+
+```{r}
+adf.test(diff(gasprices))
+```
+**Note**: 
+What does "p-value smaller than printed p-value" mean?      
+It means that this algorithm shows `p-value=0.01` if it is smaller or eual to `0.01`.
+
+## pacf() ==> AR(p=1)
+```{r}
+pacf(diff(gasprices),main="Sample PACF")
+```
+
+## eacf() ==> ARMA(p,q)
+```{r}
+eacf(diff(gasprices))
+```
+
+## ARIMA(p,d,q) ==> ARIMA(1,1,1)    
+- diff() ==> d=1
+- acf(q=1)
+- pacf(p=1)
+- eacf(p=1,q=1)
+
+**So, this model would be ARIMA(1,1,1)**
+
+---    
+
+# 1.b. Fitting a model
+
+## Fit a model using maximum likelihood
+```{r}
+# Fit the model using ARIMA(1,1,1)
+arima(gasprices,order=c(1,1,1),method='ML') # maximum likelihood
+```
+
+## To automatically check the significancy     
+```{r}
+a = arima(gasprices,order=c(1,1,1),method='ML') # maximum likelihood
+# To automatically check the significancy
+a$coef/sqrt(diag(a$var.coef))
+```
+
+## final model    
+As MA(1) is not significant (between -2 and 2), I go for ARIMA(1,1,0). As we can see, this model is more significant.
+
+```{r}
+arima(gasprices,order=c(1,1,0),method='ML') # maximum likelihood
+```
+
+```{r}
+a = arima(gasprices,order=c(1,1,0),method='ML') # maximum likelihood
+# To automatically check the significancy
+a$coef/sqrt(diag(a$var.coef))
+```
+**Answer**:      
+The final model is $\nabla Y_{t} = 0.4878 \ Y_{t-1} + e_{t}$      
+The white noise variance estimate is $\sigma^2 = 0.002344$.     
+
+---  
+
+# 1.c. The diagnostic checks
+```{r}
+gasprices.ma1.fit = arima(gasprices,order=c(1,1,0),method='ML') # maximum likelihood
+gasprices.ma1.fit
+```
+
+## Normality check: qq plot        
+- Residuals are distributed almost evenly around the the zero line.         
+- Histogram is almost bell-shaped.      
+- qqplot: The points are centered and most of the are on the reference line.     
+
+**So, we can conclude that it is normaly distributed**.  
+```{r}
+par(mfrow=c(2,2))
+plot(gasprices, ylab = "Price (USD)", xlab = "Week", type = "o", main = "Average price for regular gasoline" )
+plot(rstandard(gasprices.ma1.fit),xlab="Time",ylab="Standardised residuals",type='o')
+abline(h=0)
+hist(rstandard(gasprices.ma1.fit),xlab="Standardised residuals",main="")
+qqnorm(rstandard(gasprices.ma1.fit),main="")
+qqline(rstandard(gasprices.ma1.fit))
+```
+## Normality check: Shapiro-Wilk tests    
+H0 : the (standardized) residuals are normally distributed.         
+
+- As `p-value = 0.006841`, the null hypothesis is rejected. And we can conclude that it is not normally distributed. However I prefer to ignore this result and trust qq plot. Because the tails are less important in a distribution. 
+```{r}
+# Shapiro-Wilk tests
+shapiro.test(rstandard(gasprices.ma1.fit))
+```
+
+## Independency check: RUNS TEST
+H0 : the (standardized) residuals are independent      
+- A small number of runs would indicate that neighboring values are positively dependent and tend to
+hang together over time.            
+- Too many runs would indicate that the data oscillate back and forth across their median. This suggests
+that neighboring residuals are negatively dependent.           
+- Therefore, either too few or too many runs lead us to reject independence.           
+
+**Conclusion**:     
+- As the `$observed.runs = 71` is close to `$expected.runs = 73.41379`, we conclude that this amount of runs is not too many or small. So, we can trust the `$pvalue`.    
+- As the `$pvalue = 0.749` is large, we can not reject the null hypothesis (residuals are independent). It means that there is not enough evidence to conclude that it is not independent.    
+
+```{r}
+# runs test
+runs(rstandard(gasprices.ma1.fit))
+```
+
+
+## To check the quality of fit: acf() of the residuals                     
+To further check the adequacy of a fitted model, we use acf() of the residuals. The lags are supposed to be approximately uncorrelated. It means that none of the sample autocorrelations fall outside the error bounds.     
+
+**Conclusion**: As none of the sample autocorrelations fall outside the error bounds, the lags are approximately uncorrelated. Thereofre, the quality of this fit is acceptable.            
+```{r}
+acf(rstandard(gasprices.ma1.fit),main="Sample ACF for MA(1) residuals")
+```
+
+## To ckeck the Overfitting: ARIMA(p+1,d,q) & ARIMA(p,d,q+1)          
+
+IMPORTANT: When overfitting an ARIMA(p, d, q) model, we consider the following two models:       
+- (a) ARIMA(p+1,d,q)       
+- (b) ARIMA(p,d,q+1)      
+
+To ckeck:      
+Main model: ARIMA(1,1,0)         
+Check 1: ARIMA(2,1,0)        
+Check 2: ARIMA(1,1,1)      
+```{r}
+arima(gasprices,order=c(2,1,0),method='ML') # maximum likelihood
+arima(gasprices,order=c(1,1,1),method='ML') # maximum likelihood
+```
+
+**Analysis**:    
+
+Always: distribution (approximately 1.96)      
+$-0.0982 \ \pm \ 1.96 \ * 0.0840 \ = \ (-0.26284, 0.06644)$: This CI includes zero. Therefore, $\phi_{2}$ is not
+statistically different than zero, which suggests that the AR(2) model is not necessary.       
+
+ 
+$-0.1713 \ \pm \ 1.96 \ * 0.1479 \ = \ (-0.461184, 0.118584)$: This CI includes zero. Therefore, $\theta_{1}$ is not
+statistically different than zero, which suggests that the MA(1) model is not necessary.
+
+

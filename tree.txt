@@ -1,0 +1,353 @@
+Folder PATH listing
+Volume serial number is 5EE8-F80E
+C:.
+|   .gitignore
+|   0. Time Series Analysis _ using R on Colab.ipynb
+|   bonus.Rmd
+|   homework-1.Rmd
+|   homework-2.Rmd
+|   homework-3.Rmd
+|   homework-4.Rmd
+|   homework-5.Rmd
+|   homework-6.Rmd
+|   homework-7.Rmd
+|   README.md
+|   tree.txt
+|   
++---.git
+|   |   COMMIT_EDITMSG
+|   |   config
+|   |   description
+|   |   FETCH_HEAD
+|   |   HEAD
+|   |   index
+|   |   ORIG_HEAD
+|   |   packed-refs
+|   |   
+|   +---branches
+|   +---hooks
+|   |       applypatch-msg.sample
+|   |       commit-msg.sample
+|   |       fsmonitor-watchman.sample
+|   |       post-update.sample
+|   |       pre-applypatch.sample
+|   |       pre-commit.sample
+|   |       pre-merge-commit.sample
+|   |       pre-push.sample
+|   |       pre-rebase.sample
+|   |       pre-receive.sample
+|   |       prepare-commit-msg.sample
+|   |       push-to-checkout.sample
+|   |       update.sample
+|   |       
+|   +---info
+|   |       exclude
+|   |       
+|   +---logs
+|   |   |   HEAD
+|   |   |   
+|   |   \---refs
+|   |       +---heads
+|   |       |       main
+|   |       |       
+|   |       \---remotes
+|   |           \---origin
+|   |                   HEAD
+|   |                   main
+|   |                   
+|   +---objects
+|   |   +---00
+|   |   |       0ca1a419690e17e8a8d00f0115bb6cfc1ba3f9
+|   |   |       
+|   |   +---04
+|   |   |       0731097fc9f81ef565da32e30f47f4062338a6
+|   |   |       
+|   |   +---07
+|   |   |       31ac00a059257b154abc6b3e9c6e598149d207
+|   |   |       
+|   |   +---09
+|   |   |       d6e7db713b5da5de3bd6dbe7b456c3da744e79
+|   |   |       
+|   |   +---0d
+|   |   |       2adc512161ffbd7a158d7ea0ee6a1f528d9e79
+|   |   |       
+|   |   +---10
+|   |   |       0e214d14bc1311c06f9140eec42167a78c8df3
+|   |   |       
+|   |   +---13
+|   |   |       7fc3b9d7fb2c87349ef6433059dbfe6ea41762
+|   |   |       fef8fb73c96653be71720580331b901caf9fb8
+|   |   |       
+|   |   +---15
+|   |   |       0a0241d922db31cae6668ad3b533319b96180a
+|   |   |       
+|   |   +---1c
+|   |   |       7e59f3c6da7c628c83863fdd21a3a561cc8efc
+|   |   |       7fa0205bcb9a5c9c096129c1e5f33e34c450a5
+|   |   |       
+|   |   +---1d
+|   |   |       ed67226183d9f77b76d7db1e17e0848a81075d
+|   |   |       
+|   |   +---1f
+|   |   |       421cb84228673fa6c8eb2fee31b2ee988e9cac
+|   |   |       
+|   |   +---20
+|   |   |       8644ef554aec267539ed7b2316289632949dad
+|   |   |       
+|   |   +---21
+|   |   |       64bcba0932e92a8fce3d864b9e9dfdfdd7f307
+|   |   |       
+|   |   +---26
+|   |   |       032fd75a7dfd4aa1fab648dabd102601db297a
+|   |   |       
+|   |   +---29
+|   |   |       4c3780c5d991ad002cfc1ebd6ed927a72aab39
+|   |   |       
+|   |   +---2a
+|   |   |       4c7342e5cc1ceb2cfb1b921036d743b30e07f0
+|   |   |       
+|   |   +---2b
+|   |   |       633226971ea40ac9098c4d6e4e25327c04bc53
+|   |   |       
+|   |   +---2f
+|   |   |       16cea06efdc90cc0f82e6048743c11ee41b535
+|   |   |       
+|   |   +---30
+|   |   |       5e1efa68daf4a80df8691188a016f91d2b11bc
+|   |   |       
+|   |   +---32
+|   |   |       32e5c793e2d873f7ec18b792085f0461fe5620
+|   |   |       
+|   |   +---3a
+|   |   |       b8554b30a931b0dacb1450d4700b083f130de5
+|   |   |       
+|   |   +---3b
+|   |   |       ea62fc8232946274fe0b0252e78cb65a043a57
+|   |   |       
+|   |   +---3c
+|   |   |       af874ea9276330276428c3cc80a2cd2d217215
+|   |   |       
+|   |   +---43
+|   |   |       693e3fd4391d4864dd4781cce1b7f7dfff3024
+|   |   |       
+|   |   +---4d
+|   |   |       b8a63c8e20794fadf3c905f6b53cc8dd544ea0
+|   |   |       bb74754aa095a8080eaa48e16334c378285d6b
+|   |   |       
+|   |   +---50
+|   |   |       37f9f8f2c9dec62d89111bb9af8e6dcdb1d9cd
+|   |   |       
+|   |   +---51
+|   |   |       dc677a7f3cadc23faeb99840bb2e1291d8eaa6
+|   |   |       
+|   |   +---52
+|   |   |       1e5114d553954d172a7f7322a09cc6372f41a3
+|   |   |       
+|   |   +---53
+|   |   |       56e034e46d1d3d85d993e28131a07a488a2ba9
+|   |   |       
+|   |   +---54
+|   |   |       a671036b458f81e9a6b06e7d3f4011b76ba1d7
+|   |   |       
+|   |   +---56
+|   |   |       fb3853a43989759332c3f653db3b5274c13d4a
+|   |   |       
+|   |   +---57
+|   |   |       b37e59ee18e6d7be931f7bb816866c6b6e919b
+|   |   |       
+|   |   +---58
+|   |   |       4c5f4f14b52a3a0fc32853c3795124a1881b43
+|   |   |       
+|   |   +---59
+|   |   |       b71e180aa499a6b60c2926e886c7641035ad72
+|   |   |       c7673aa9808e2aa83b4ae8c1c16cc3fa307e67
+|   |   |       
+|   |   +---5f
+|   |   |       304e58050535f05b22bb235bd747073e6e8bab
+|   |   |       
+|   |   +---6d
+|   |   |       0abc635c6f72395b1d6f626a8c7ba5828156a2
+|   |   |       
+|   |   +---71
+|   |   |       abb8b9f7eba419a07fd9b87ece2ee9d7590565
+|   |   |       
+|   |   +---72
+|   |   |       0ee05c4b44c6be028b1e266a0a7972ad7a5b31
+|   |   |       d6a58b91b4c41c693b56dda2124a3a63d32e8f
+|   |   |       
+|   |   +---7b
+|   |   |       d1f894f1f6bf850cf88676c86d537b6f0fe01d
+|   |   |       
+|   |   +---7d
+|   |   |       175b71a640831bfe4b25d0ffea56c63f753557
+|   |   |       217889e1cf19f301db3fdd4cde7d45f6ba9b90
+|   |   |       
+|   |   +---7e
+|   |   |       15f5e06bd7633190207db5ae38434bdb0337f8
+|   |   |       
+|   |   +---81
+|   |   |       923ce4d872a2127a5a1ed1de9c85d4854e5fd8
+|   |   |       
+|   |   +---83
+|   |   |       e8d55b57f5bccb325d37a27f0ea61e78220c3a
+|   |   |       
+|   |   +---87
+|   |   |       50e5e42020d428ed05a89769fad850e0c49850
+|   |   |       fea1cd6995452a5ecd487d1dc234e9b9564e08
+|   |   |       
+|   |   +---89
+|   |   |       72d872f64fa7638018cc509d8bebcca5094067
+|   |   |       
+|   |   +---8a
+|   |   |       cfbc5e4a003d68cd86dfb1200db2f85b4ae0ff
+|   |   |       
+|   |   +---8e
+|   |   |       1bd973c65dfc3521ea02c41daa3f47b86b6ae9
+|   |   |       
+|   |   +---8f
+|   |   |       5c9070ce40a40e1d7d0fca9579a19fa99261ee
+|   |   |       ec1bfaf050154952c2fa841243e36d7716405d
+|   |   |       
+|   |   +---90
+|   |   |       65a96be4f83d1e7efb5ed4b2596c3212837fb2
+|   |   |       
+|   |   +---95
+|   |   |       d42dda02347d0969d4cd1e3d0601649eac7259
+|   |   |       
+|   |   +---9d
+|   |   |       6cc1ffacb98536656baa0f7aee19d47437df51
+|   |   |       c3d34adbf726b3a9db9af14ecbc39fadd40c27
+|   |   |       
+|   |   +---a6
+|   |   |       3bff41a6df367c82fce0803bb850d0216bea04
+|   |   |       511e5fc5dc86b0af4939745cab4a5c9108bd96
+|   |   |       
+|   |   +---ab
+|   |   |       f15fd8d7ca718098baa8d0ff821b170b9d3fe4
+|   |   |       
+|   |   +---ac
+|   |   |       30718c106036fb95f2bd25b6bc596cc35e357d
+|   |   |       cf129552956f3be06e97c1afdaa11a8454d347
+|   |   |       
+|   |   +---ad
+|   |   |       e684bc5aea40d30937fe8f9510b777a4f7a897
+|   |   |       
+|   |   +---ae
+|   |   |       4777f1d027b3b9752cc22c0878b46f61bb16c2
+|   |   |       
+|   |   +---b0
+|   |   |       3d53b0a7e8fdf674ae8305259e1dd9645f7b31
+|   |   |       
+|   |   +---b3
+|   |   |       163895af2e991bdc38996151259821d5183084
+|   |   |       
+|   |   +---b5
+|   |   |       c19079f9fc42eb21e32e4001ed152944380de2
+|   |   |       c507bdc4467d37c21e1eeeda5aee136e2ad98c
+|   |   |       
+|   |   +---b8
+|   |   |       507ed047393ff46f44281414ccf9de70284de5
+|   |   |       
+|   |   +---bd
+|   |   |       7563feeb7281b5f1e1de6dff182269fa4ad90d
+|   |   |       
+|   |   +---c5
+|   |   |       880bbab88676caedb3aa0e3262e349e70c73e4
+|   |   |       
+|   |   +---c7
+|   |   |       eb6532d60090a08e44691b03aad3efc05de5de
+|   |   |       
+|   |   +---c8
+|   |   |       00c1a8b2a62b65ef418064bd786a15dd5c4996
+|   |   |       0d474f95b5cf052697dad1f84c21ea50922936
+|   |   |       31b09b26c7c268f4b84c1b0ff1307ceb2a37fc
+|   |   |       
+|   |   +---ca
+|   |   |       b6c288e5bbc78b7b5b1b17bcc3a82e11e2a6f3
+|   |   |       
+|   |   +---cf
+|   |   |       bac554a3b43adef7f71e1abcad7d87f605b3be
+|   |   |       
+|   |   +---d1
+|   |   |       2d12a54012a14891a1f26b2c6ad2ef797cd2ec
+|   |   |       
+|   |   +---d2
+|   |   |       05d357e2cd9b9a08c3a7d008b8ab0d10547028
+|   |   |       
+|   |   +---dc
+|   |   |       756846229e3aa2f3e40680d28321e16b228303
+|   |   |       
+|   |   +---de
+|   |   |       5f97fd36b9b4a207b8e0b5c5160d904705c76b
+|   |   |       
+|   |   +---e7
+|   |   |       4d84dc6c1b9b0f21db99a6ec04be7fc6c3d916
+|   |   |       
+|   |   +---e8
+|   |   |       9793a2726e20b19b1040a49de76193fbff0c27
+|   |   |       
+|   |   +---ec
+|   |   |       5317a041fdfa76b6d55cf52ab3749241b7214e
+|   |   |       d8b831b1712f6eea4e185dfdb0f934f1936aa6
+|   |   |       
+|   |   +---f4
+|   |   |       58cf761e580c16ea0554148d0625dce4f2a1eb
+|   |   |       
+|   |   +---f9
+|   |   |       58d33d6ca73db4672609839cdaa858af88deee
+|   |   |       
+|   |   +---fa
+|   |   |       ab67469af1060dd18e12708e850c4cab9b0580
+|   |   |       
+|   |   +---fe
+|   |   |       87fa439797825d02f30882537b74e7271fac9e
+|   |   |       
+|   |   +---info
+|   |   \---pack
+|   |           pack-83463e79f49dcc262d397efd67daa76a3f934ff2.idx
+|   |           pack-83463e79f49dcc262d397efd67daa76a3f934ff2.pack
+|   |           
+|   \---refs
+|       +---heads
+|       |       main
+|       |       
+|       +---remotes
+|       |   \---origin
+|       |           HEAD
+|       |           main
+|       |           
+|       \---tags
++---1. Data
+|       apple.txt
+|       Daw 30.txt
+|       DAW30.csv
+|       earthquake.txt
+|       gasprices.txt
+|       gota.txt
+|       huron.txt
+|       spectrun.txt
+|       supremecourt.txt
+|       tb.txt
+|       ventilation.txt
+|       
+\---Archive
+    +---html
+    |       bonus.nb.html
+    |       homework-1.nb.html
+    |       homework-2.nb.html
+    |       homework-3.nb.html
+    |       homework-4.nb.html
+    |       homework-5.nb.html
+    |       homework-6.nb.html
+    |       homework-7.html
+    |       
+    \---PDF
+            bonus exercise.pdf
+            homework-1.pdf
+            homework-2.pdf
+            homework-3.pdf
+            homework-4.pdf
+            homework-5.pdf
+            homework-6.pdf
+            homework-7.pdf
+            
