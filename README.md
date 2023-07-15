@@ -16,7 +16,6 @@ Time Series Analysis:.
 |   homework-6.Rmd
 |   homework-7.Rmd
 |   README.md
-|   tree.txt
 |   
 +---.git
 |   
