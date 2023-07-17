@@ -1,0 +1,111 @@
+---
+title: "5160 - HW8"
+author: "Mostafa"
+date: 4/23/2021
+output: 
+    html_notebook:
+          toc: yes
+---
+
+---
+
+# 1.      
+The `gasprices.txt` data set includes average price (US dollars per gallon) for regular gasoline in the United States; there are **145** weekly observations** collected from 1/5/2009 to 10/10/2011 (Source: RajonColes, Fall 2011). Use only the first n=**140** weekly observations to fit models and make predictions.
+
+```{r cars}
+library(TSA) 
+library(tseries) 
+```
+
+## 1.a.      
+- Calculate MMSE forecasts and prediction intervals for next 5 weeks (week 141 to week 145) using an ARIMA(0,1,1) model.     
+- Display the forecasts and prediction intervals visually.
+
+```{r}
+gasprices <- ts(read.table("gasprices.txt", quote="\"", comment.char=""),start = 1, end = 140)
+
+##  ARIMA(0,1,1) model
+gasprices.arima011.fit = arima(gasprices,order=c(0,1,1),method='ML', n=140)
+gasprices.arima011.fit
+
+# Prediction and standard error
+gasprices.arima011.fit.predict = predict(gasprices.arima011.fit, n.ahead=5)
+round(gasprices.arima011.fit.predict$pred,3)
+
+# Original series starts at week = 1
+# Note: Argument n1=1 starts plot at 1
+# Note: Argument pch=16 produces a small black circle (for MMSE forecasts)
+plot(gasprices.arima011.fit, n.ahead=5, col='red', type='b', pch=16, n1=1, 
+     ylab="Average price (USD/Gallon)", 
+     xlab="weeks")
+
+# show the prediction intervals visually
+result.arima.011 = plot(gasprices.arima011.fit, n.ahead=5, col='red', type='b', pch=16, n1=1, 
+                        ylab="Average price (USD/Gallon)", 
+                        xlab="weeks", 
+                        Plot = FALSE)
+result.arima.011
+```
+
+## 1.b.    
+- Calculate MMSE forecasts and prediction intervals for next 5 weeks (week 141 to week 145) using an ARIMA(1,2,0) model.        
+- Display the forecasts and prediction intervals visually.
+
+```{r}
+##  ARIMA(1,2,0) model
+gasprices.arima120.fit = arima(gasprices,order=c(1,2,0), method='ML', n=140)
+gasprices.arima120.fit
+
+# Prediction and standard error
+gasprices.arima120.fit.predict = predict(gasprices.arima120.fit, n.ahead=5)
+round(gasprices.arima120.fit.predict$pred, 3)
+
+# Original series starts at week = 1
+# Note: Argument n1=1 starts plot at 1
+# Note: Argument pch=16 produces a small black circle (for MMSE forecasts)
+plot(gasprices.arima120.fit, n.ahead=5, col='blue', type='b', pch=16, n1=1, 
+     ylab="Average price (USD/Gallon)", 
+     xlab="weeks")
+
+# show the prediction intervals visually
+result.arima.120 <- plot(gasprices.arima120.fit, n.ahead=5, col='blue', type='b', pch=16, n1=1, 
+                         ylab="average price (US dollars per gallon)", 
+                         xlab="weeks", 
+                         Plot = FALSE)
+result.arima.120
+```
+## 1.c.     
+Since we already know the observed values from week 141 to week 145, we want to compare which model is better in prediction.     
+For the above two models:     
+- calculate    
+- compare    
+the mean squared forecast error (MSFE) using the following formula:     
+$$MSFE = \frac {1}{5} \Sigma_{l=1}^{5} \{Y_{140+l} - \hat Y_{t}(l) \}^2$$
+```{r}
+gasprices.141.145 <- ts(read.table("gasprices.txt", quote="\"", comment.char=""),
+                start = 141, 
+                end = 145)
+
+arima011 <- round(gasprices.arima011.fit.predict$pred, 3)
+arima011
+MSEF.arima011 = (1/5) * sum( (arima011 - gasprices.141.145)^2 )
+MSEF.arima011
+
+arima120 <- round(gasprices.arima120.fit.predict$pred, 3)
+arima120
+MSEF.arima120 = (1/5) * sum( (arima120 - gasprices.141.145)^2 )
+MSEF.arima120 
+
+if (MSEF.arima011 < MSEF.arima120) {
+   print("ARIMA(0,1,1) is better than ARIMA(1,2,0)")
+   }else{
+   print("ARIMA(1,2,0) is better than ARIMA(0,1,1)")
+   }
+```
+
+# Conclusion    
+
+### ARIMA(0,1,1): MSFE = 0.0399142
+### ARIMA(1,2,0): MSFE = 0.1119598
+### 0.0399142 < 0.1119598 ==> ARIMA(0,1,1) is better that ARIMA(1,2,0)
+
